@@ -1,0 +1,25 @@
+name: Build DEB
+on: [push]
+
+jobs:
+  build:
+    name: Build DEB
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: prepare
+        run: docker build --tag dh-venv-builder --build-arg distro=ubuntu:20.04 .
+      - name: build deb
+        run: mkdir -p dist && docker run --rm dh-venv-builder tar -C /dpkg -c . | tar -C dist -xv
+      - name: upload deb package
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/*.deb
+      - name: upload buildinfo file
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/*.buildinfo
+      - name: upload changes file
+        uses: actions/upload-artifact@v2
+        with:
+          path: dist/*.changes
