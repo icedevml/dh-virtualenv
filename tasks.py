@@ -2,7 +2,7 @@
 # pylint: disable=wildcard-import, unused-wildcard-import, bad-continuation
 """ Project automation using Invoke.
 """
-from __future__ import absolute_import, unicode_literals
+
 
 import os
 
